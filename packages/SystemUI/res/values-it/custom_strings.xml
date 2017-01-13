@@ -29,4 +29,6 @@
     <!-- Shows when people have clicked on the custom lockscreen shortcut [CHAR LIMIT=60] -->
     <string name="custom_hint">Scorri sull\'icona per avviare</string>
 
+    <string name="quick_settings_doze_notifications_label">Notifiche Ambient</string>
+
 </resources>
