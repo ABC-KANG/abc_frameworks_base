@@ -17,5 +17,9 @@
  */
 -->
 <resources>
-    <color name="powersave_warning_color">#ff8e0101</color><!-- rgb 142 1 1 -->
+    <color name="powersave_warning_color">#ff8e0101</color> <!-- rgb 142 1 1 -->
+
+    <!-- Screenshot action colors -->
+    <color name="screenshot_flash_color">#b3adadad</color> <!-- light grey with some transparency -->
+    <color name="screenshot_background_color">@android:color/black</color>
 </resources>
