@@ -24,4 +24,7 @@
 
     <!-- High Brightness Mode Tile -->
     <string name="quick_settings_high_brightness">High brightness</string>
+
+    <string name="screenshot_abort_title">No screenshot taken</string>
+    <string name="screenshot_abort_text">Operation aborted.</string>
 </resources>
