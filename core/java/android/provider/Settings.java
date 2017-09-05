@@ -4126,6 +4126,17 @@ public final class Settings {
          * @hide
          */
         public static final String RECENTS_ICON_PACK = "recents_icon_pack";
+        /**
+         * show clear all recents button
+         * @hide
+         */
+        public static final String SHOW_CLEAR_ALL_RECENTS = "show_clear_all_recents";
+
+        /**
+         * location of the clear all rectents button
+         * @hide
+         */
+        public static final String  RECENTS_CLEAR_ALL_LOCATION = "recents_clear_all_location";
 
         /**
          * Whether to use slim recents
