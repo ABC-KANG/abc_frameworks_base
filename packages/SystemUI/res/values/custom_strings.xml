@@ -38,6 +38,7 @@
 
     <string name="summary_empty" translatable="false"></string>
 
+
     <!-- SysUI Tuner -->
     <string name="statusbar_icons_blacklist">Status bar icons</string>
     <string name="navbar_tuner_activity">Navigation bar buttons</string>
@@ -49,4 +50,10 @@
 
     <!-- Shows when people have clicked on the custom lockscreen shortcut [CHAR LIMIT=60] -->
     <string name="custom_hint">Swipe from icon to launch</string>
+
+    <!-- Caffeine QS Tile -->
+    <string name="quick_settings_caffeine_label">Caffeine</string>
+    <string name="accessibility_quick_settings_caffeine_off">Caffeine off</string>
+    <string name="accessibility_quick_settings_caffeine_on">Caffeine on</string>
+
 </resources>
