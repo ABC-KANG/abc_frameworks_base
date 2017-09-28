@@ -26,4 +26,7 @@
     <string name="battery_level_good_title">Livello batteria ottimale</string>
     <string name="notification_channel_charge_alert">Avviso carica batteria ottimale</string>
 
+    <!-- Shows when people have clicked on the custom lockscreen shortcut [CHAR LIMIT=60] -->
+    <string name="custom_hint">Scorri sull\'icona per avviare</string>
+
 </resources>
