@@ -21,4 +21,9 @@
     <string name="global_action_restart_advanced">Riavvio avanzato</string>
     <string name="global_action_restart_recovery">Recovery</string>
     <string name="global_action_restart_bootloader">Bootloader</string>
+
+    <string name="alert_on_charged_level">Puoi disconnettere il caricatore ( ">"<xliff:g id="percentage">%s</xliff:g> )</string>
+    <string name="battery_level_good_title">Livello batteria ottimale</string>
+    <string name="notification_channel_charge_alert">Avviso carica batteria ottimale</string>
+
 </resources>

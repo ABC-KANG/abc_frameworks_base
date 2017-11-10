@@ -18,4 +18,6 @@
 -->
 <resources>
     <color name="powersave_warning_color">#ff8e0101</color><!-- rgb 142 1 1 -->
+
+    <color name="battery_level_good_color">#ff319111</color><!-- green -->
 </resources>
