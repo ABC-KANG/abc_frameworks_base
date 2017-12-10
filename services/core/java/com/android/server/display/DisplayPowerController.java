@@ -45,6 +45,9 @@ import android.util.TimeUtils;
 import android.view.Display;
 import android.view.WindowManagerPolicy;
 
+import android.os.UserHandle;
+import android.provider.Settings;
+
 import java.io.PrintWriter;
 
 /**
@@ -160,7 +163,7 @@ final class DisplayPowerController implements AutomaticBrightnessController.Call
     private boolean mUseSoftwareAutoBrightnessConfig;
 
     // True if should use light sensor to automatically determine doze screen brightness.
-    private final boolean mAllowAutoBrightnessWhileDozingConfig;
+    private boolean mAllowAutoBrightnessWhileDozingConfig;
 
     // Whether or not the color fade on screen on / off is enabled.
     private final boolean mColorFadeEnabled;
@@ -714,6 +717,9 @@ final class DisplayPowerController implements AutomaticBrightnessController.Call
             if (brightness >= 0) {
                 // Use current auto-brightness value and slowly adjust to changes.
                 brightness = clampScreenBrightness(brightness);
+                Settings.System.putIntForUser(mContext.getContentResolver(),
+                        Settings.System.LAST_DOZE_AUTO_BRIGHTNESS, brightness,
+                        UserHandle.USER_CURRENT);
                 if (mAppliedAutoBrightness && !autoBrightnessAdjustmentChanged) {
                     slowChange = true; // slowly adapt to auto-brightness
                 }
@@ -1407,6 +1413,10 @@ final class DisplayPowerController implements AutomaticBrightnessController.Call
 
     private static int clampAbsoluteBrightness(int value) {
         return MathUtils.constrain(value, PowerManager.BRIGHTNESS_OFF, PowerManager.BRIGHTNESS_ON);
+    }
+
+    public void enableAutoDozeBrightness(boolean enable) {
+        mAllowAutoBrightnessWhileDozingConfig = enable;
     }
 
     private final class DisplayControllerHandler extends Handler {
