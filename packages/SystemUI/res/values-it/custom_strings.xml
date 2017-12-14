@@ -31,4 +31,5 @@
 
     <string name="quick_settings_doze_notifications_label">Notifiche Ambient</string>
 
+    <string name="quick_settings_region_screenshot_label">Screenshot parziale</string>
 </resources>
