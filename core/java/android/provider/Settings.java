@@ -4197,6 +4197,14 @@ public final class Settings {
          */
         public static final String SLIM_RECENTS_BLACKLIST_VALUES = "slim_recents_blacklist_values";
 
+        /**
+         * 0 - wallpaper based
+         * 1 - force light
+         * 2 - force dark
+         * @hide
+         */
+        public static final String SYSTEM_UI_THEME = "system_ui_theme";
+
         /** End of ABC system settings**/
 
         /**
