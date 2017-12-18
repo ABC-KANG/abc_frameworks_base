@@ -16,9 +16,47 @@
  -->
 
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- Caffeine Tile -->
+    <string name="global_action_restart_advanced">Расшир. перезагрузка</string>
+    <string name="global_action_restart_recovery">В режим восстановления</string>
+    <string name="global_action_restart_bootloader">В загрузчик</string>
+
+    <string name="screenshot_abort_title">Снимок экрана не сделан</string>
+    <string name="screenshot_abort_text">Операция отменена</string>
+
+    <!-- accessibility label for button to open running apps prefscreen [CHAR LIMIT=NONE] -->
+    <string name="accessibility_quick_settings_running_services">Открыть список работающих приложений.</string>
+
+    <!-- SysUI Tuner -->
+    <string name="statusbar_icons_blacklist">Значки в строке состояния</string>
+
+    <string name="lockscreen_default">По умолчанию</string>
+    <string name="lockscreen_hidden">Нет</string>
+
+    <!-- Shows when people have clicked on the custom lockscreen shortcut [CHAR LIMIT=60] -->
+    <string name="custom_hint">Проведите пальцем от иконки в сторону центра экрана</string>
+
+    <!-- Caffeine QS Tile -->
     <string name="quick_settings_caffeine_label">Кофеин</string>
 
-    <string name="status_bar_roaming">Роуминг</string>
+    <!-- Screenshot QS tile -->
+    <string name="quick_settings_screenshot_label">Снимок экрана</string>
+    <string name="quick_settings_region_screenshot_label">Снимок области</string>
 
+    <!-- PiP Tile -->
+    <string name="quick_settings_pip_label">PiP</string>
+    <string name="quick_settings_pip_tile_app_na">Приложение не поддерживает PiP</string>
+
+     <!-- Sound QS Tile -->
+     <string name="quick_settings_sound_label">Звук</string>
+     <string name="quick_settings_sound_ring">Все звуки</string>
+     <string name="quick_settings_sound_vibrate">Вибрировать</string>
+     <string name="quick_settings_sound_dnd">Не беспокоить</string>
+
+     <!-- Volume QS Tile -->
+     <string name="accessibility_quick_settings_volume_panel">Панель громкости</string>
+     <string name="quick_settings_volume_panel_label">Панель громкости</string>
+
+     <string name="recents_app_killed">Приложение закрыто</string>
+
+    <string name="status_bar_roaming">Роуминг</string>
 </resources>
