@@ -18,9 +18,7 @@
 */
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="global_action_restart_advanced">Riavvio avanzato</string>
-    <string name="global_action_restart_recovery">Recovery</string>
-    <string name="global_action_restart_bootloader">Bootloader</string>
+    <string name="global_action_restart_advanced">Avanzate</string>
 
     <string name="alert_on_charged_level">Puoi disconnettere il caricatore ( ">"<xliff:g id="percentage">%s</xliff:g> )</string>
     <string name="battery_level_good_title">Livello batteria ottimale</string>
