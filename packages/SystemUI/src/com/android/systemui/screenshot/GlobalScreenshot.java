@@ -31,6 +31,7 @@ import android.app.Notification;
 import android.app.Notification.BigPictureStyle;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.WallpaperManager;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.BroadcastReceiver;
@@ -72,10 +73,15 @@ import android.view.animation.Interpolator;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.internal.colorextraction.ColorExtractor;
+import com.android.internal.colorextraction.ColorExtractor.GradientColors;
 import com.android.internal.messages.nano.SystemMessageProto.SystemMessage;
 import com.android.internal.util.abc.AbcUtils;
+import com.android.systemui.colorextraction.SysuiColorExtractor;
+import com.android.systemui.Dependency;
 import com.android.systemui.R;
 import com.android.systemui.SystemUI;
+import com.android.systemui.statusbar.policy.KeyguardMonitor;
 import com.android.systemui.util.NotificationChannels;
 
 import java.io.File;
@@ -420,7 +426,7 @@ class DeleteImageInBackgroundTask extends AsyncTask<Uri, Void, Void> {
     }
 }
 
-class GlobalScreenshot {
+class GlobalScreenshot implements ColorExtractor.OnColorsChangedListener {
     static final String SCREENSHOT_URI_ID = "android:screenshot_uri_id";
     static final String SHARING_INTENT = "android:screenshot_sharing_intent";
 
@@ -464,6 +470,8 @@ class GlobalScreenshot {
 
     private MediaActionSound mCameraSound;
 
+    private final KeyguardMonitor mKeyguardMonitor;
+    private final ColorExtractor mColorExtractor;
 
     /**
      * @param context everything needs a context :(
@@ -533,6 +541,25 @@ class GlobalScreenshot {
         // Setup the Camera shutter sound
         mCameraSound = new MediaActionSound();
         mCameraSound.load(MediaActionSound.SHUTTER_CLICK);
+
+        Dependency.initDependencies(context);
+        mKeyguardMonitor = Dependency.get(KeyguardMonitor.class);
+        mColorExtractor = Dependency.get(SysuiColorExtractor.class);
+        mColorExtractor.addOnColorsChangedListener(this);
+        setColors();
+    }
+
+    private void setColors() {
+        GradientColors colors = mColorExtractor.getColors(mKeyguardMonitor.isShowing() ?
+                WallpaperManager.FLAG_LOCK : WallpaperManager.FLAG_SYSTEM);
+        int color = colors.getMainColor();
+        mScreenshotSelectorView.setDarkenColor(color);
+        mScreenshotFlash.setColorFilter(color);
+    }
+
+    @Override
+    public void onColorsChanged(ColorExtractor extractor, int which) {
+        setColors();
     }
 
     /**
