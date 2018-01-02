@@ -4038,7 +4038,8 @@ public class NotificationManagerService extends SystemService {
 
         if (aboveThreshold && isNotificationForCurrentUser(record)) {
 
-            if (mSystemReady && mAudioManager != null) {
+            if (mSystemReady && mAudioManager != null && !mScreenOn
+                    || (mScreenOn && record.shouldSoundScreenOn())) {
                 Uri soundUri = record.getSound();
                 hasValidSound = soundUri != null && !Uri.EMPTY.equals(soundUri);
                 long[] vibration = record.getVibration();
