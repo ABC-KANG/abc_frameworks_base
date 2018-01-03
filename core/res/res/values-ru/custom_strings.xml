@@ -21,8 +21,8 @@
     <!-- Vendor mismatched fingerprint warning [CHAR LIMIT=NONE] -->
     <string name="system_error_vendorprint">Версия образа vendor не соответствует системе. Прошейте образ vendor версии <xliff:g id="string">%s</xliff:g></string>
 
-    <string name="reboot_to_recovery_title">Режим восстановления</string>
-    <string name="reboot_to_recovery_message">Перезагрузка в режим восстановления</string>
+    <string name="reboot_to_recovery_title">Восстановление</string>
+    <string name="reboot_to_recovery_message">Перезагрузка в режим восст.</string>
     <string name="reboot_to_bootloader_title">Загрузчик</string>
     <string name="reboot_to_bootloader_message">Перезагрузка в режим загрузчика</string>
     <string name="reboot_title">Перезагрузка</string>
