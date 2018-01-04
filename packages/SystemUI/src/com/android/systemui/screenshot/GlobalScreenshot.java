@@ -542,7 +542,7 @@ class GlobalScreenshot implements ColorExtractor.OnColorsChangedListener {
         mCameraSound = new MediaActionSound();
         mCameraSound.load(MediaActionSound.SHUTTER_CLICK);
 
-        Dependency.initDependencies(context);
+        Dependency.initDependencies(context.getApplicationContext());
         mKeyguardMonitor = Dependency.get(KeyguardMonitor.class);
         mColorExtractor = Dependency.get(SysuiColorExtractor.class);
         mColorExtractor.addOnColorsChangedListener(this);
