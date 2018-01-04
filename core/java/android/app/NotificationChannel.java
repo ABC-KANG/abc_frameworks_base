@@ -73,7 +73,6 @@ public final class NotificationChannel implements Parcelable {
     private static final String ATT_VIBRATION = "vibration";
     private static final String ATT_VIBRATION_ENABLED = "vibration_enabled";
     private static final String ATT_SOUND = "sound";
-    private static final String ATT_SOUND_SCREEN_ON = "sound_screen_on";
     private static final String ATT_USAGE = "usage";
     private static final String ATT_FLAGS = "flags";
     private static final String ATT_CONTENT_TYPE = "content_type";
@@ -136,7 +135,6 @@ public final class NotificationChannel implements Parcelable {
     private static final boolean DEFAULT_DELETED = false;
     private static final boolean DEFAULT_SHOW_BADGE = true;
     private static final boolean DEFAULT_ON_ZEN = false;
-    private static final boolean DEFAULT_SOUND_SCREEN_ON = true;
 
     private final String mId;
     private String mName;
@@ -150,7 +148,6 @@ public final class NotificationChannel implements Parcelable {
     private int mLightOnTime = DEFAULT_ON_TIME;
     private int mLightOffTime = DEFAULT_OFF_TIME;
     private boolean mLightOnZen = DEFAULT_ON_ZEN;
-    private boolean mSoundScreenOn = DEFAULT_SOUND_SCREEN_ON;
     private long[] mVibration;
     private int mUserLockedFields;
     private boolean mVibrationEnabled;
@@ -221,7 +218,6 @@ public final class NotificationChannel implements Parcelable {
         mLightOnTime = in.readInt();
         mLightOffTime = in.readInt();
         mLightOnZen = in.readBoolean();
-        mSoundScreenOn = in.readBoolean();
         mBlockableSystem = in.readBoolean();
     }
 
@@ -276,7 +272,6 @@ public final class NotificationChannel implements Parcelable {
         dest.writeInt(mLightOnTime);
         dest.writeInt(mLightOffTime);
         dest.writeBoolean(mLightOnZen);
-        dest.writeBoolean(mSoundScreenOn);
         dest.writeBoolean(mBlockableSystem);
     }
 
@@ -432,16 +427,6 @@ public final class NotificationChannel implements Parcelable {
     }
 
     /**
-     * Sets whether notification posted to this channel should play a sound when screen is on.
-     * @hide
-     * Only modifiable before the channel is submitted to
-     * {@link NotificationManager#notify(String, int, Notification)}.
-     */
-    public void setSoundScreenOn(boolean enabled) {
-        this.mSoundScreenOn = enabled;
-    }
-
-    /**
      * Sets whether notification posted to this channel should vibrate. The vibration pattern can
      * be set with {@link #setVibrationPattern(long[])}.
      *
@@ -593,14 +578,6 @@ public final class NotificationChannel implements Parcelable {
     }
 
     /**
-     * Returns whether notifications posted to this channel plays a sound when screen is on.
-     * @hide
-     */
-    public boolean shouldSoundScreenOn() {
-        return mSoundScreenOn;
-    }
-
-    /**
      * Returns whether notifications posted to this channel always vibrate.
      */
     public boolean shouldVibrate() {
@@ -702,7 +679,6 @@ public final class NotificationChannel implements Parcelable {
         setLightOnTime(safeInt(parser, ATT_ON_TIME, DEFAULT_ON_TIME));
         setLightOffTime(safeInt(parser, ATT_OFF_TIME, DEFAULT_OFF_TIME));
         setLightOnZen(safeBool(parser, ATT_ON_ZEN, DEFAULT_ON_ZEN));
-        setSoundScreenOn(safeBool(parser, ATT_SOUND_SCREEN_ON, DEFAULT_SOUND_SCREEN_ON));
         setVibrationPattern(safeLongArray(parser, ATT_VIBRATION, null));
         enableVibration(safeBool(parser, ATT_VIBRATION_ENABLED, false));
         setShowBadge(safeBool(parser, ATT_SHOW_BADGE, false));
@@ -813,9 +789,6 @@ public final class NotificationChannel implements Parcelable {
         if (shouldLightOnZen()) {
             out.attribute(null, ATT_ON_ZEN, Boolean.toString(shouldLightOnZen()));
         }
-        if (shouldSoundScreenOn()) {
-            out.attribute(null, ATT_SOUND_SCREEN_ON, Boolean.toString(shouldSoundScreenOn()));
-        }
         if (shouldVibrate()) {
             out.attribute(null, ATT_VIBRATION_ENABLED, Boolean.toString(shouldVibrate()));
         }
@@ -874,7 +847,6 @@ public final class NotificationChannel implements Parcelable {
         record.put(ATT_ON_TIME, Integer.toString(getLightOnTime()));
         record.put(ATT_OFF_TIME, Integer.toString(getLightOffTime()));
         record.put(ATT_ON_ZEN, Boolean.toString(shouldLightOnZen()));
-        record.put(ATT_SOUND_SCREEN_ON, Boolean.toString(shouldSoundScreenOn()));
         record.put(ATT_VIBRATION_ENABLED, Boolean.toString(shouldVibrate()));
         record.put(ATT_USER_LOCKED, Integer.toString(getUserLockedFields()));
         record.put(ATT_VIBRATION, longArrayToString(getVibrationPattern()));
@@ -980,7 +952,6 @@ public final class NotificationChannel implements Parcelable {
         if (getLightOnTime() != that.getLightOnTime()) return false;
         if (getLightOffTime() != that.getLightOffTime()) return false;
         if (shouldLightOnZen() != that.shouldLightOnZen()) return false;
-        if (shouldSoundScreenOn() != that.shouldSoundScreenOn()) return false;
         if (getUserLockedFields() != that.getUserLockedFields()) return false;
         if (mVibrationEnabled != that.mVibrationEnabled) return false;
         if (mShowBadge != that.mShowBadge) return false;
@@ -1020,7 +991,6 @@ public final class NotificationChannel implements Parcelable {
         result = 31 * result + getLightOnTime();
         result = 31 * result + getLightOffTime();
         result = 31 * result + (mLightOnZen ? 1 : 0);
-        result = 31 * result + (mSoundScreenOn ? 1 : 0);
         result = 31 * result + Arrays.hashCode(mVibration);
         result = 31 * result + getUserLockedFields();
         result = 31 * result + (mVibrationEnabled ? 1 : 0);
@@ -1047,7 +1017,6 @@ public final class NotificationChannel implements Parcelable {
                 ", mLightOnTime=" + mLightOnTime +
                 ", mLightOffTime=" + mLightOffTime +
                 ", mLightOnZen=" + mLightOnZen +
-                ", mSoundScreenOn=" + mSoundScreenOn +
                 ", mVibration=" + Arrays.toString(mVibration) +
                 ", mUserLockedFields=" + mUserLockedFields +
                 ", mVibrationEnabled=" + mVibrationEnabled +
