@@ -16,8 +16,8 @@
  -->
 
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="global_action_restart_advanced">Расшир. перезагрузка</string>
-    <string name="global_action_restart_recovery">Режим восстановления</string>
+    <string name="global_action_restart_advanced">Дополнительно</string>
+    <string name="global_action_restart_recovery">Восстановление</string>
     <string name="global_action_restart_bootloader">Загрузчик</string>
     <string name="global_action_restart_ui">Интерфейс</string>
 
@@ -77,4 +77,7 @@
      <string name="recents_app_killed">Приложение закрыто</string>
 
     <string name="status_bar_roaming">Роуминг</string>
+
+    <!-- Battery saver tile -->
+    <string name="battery_saver_qs_tile_fully_charged">Полностью заряжено</string>
 </resources>
