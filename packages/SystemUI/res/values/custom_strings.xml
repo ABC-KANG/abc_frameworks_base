@@ -91,4 +91,7 @@
 
     <string name="status_bar_roaming">Roaming</string>
     <string name="status_bar_vpn">VPN</string>
+
+    <!-- Battery saver tile -->
+    <string name="battery_saver_qs_tile_fully_charged">Fully Charged</string>
 </resources>
