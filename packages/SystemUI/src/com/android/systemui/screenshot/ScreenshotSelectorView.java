@@ -42,7 +42,8 @@ public class ScreenshotSelectorView extends View {
 
     public ScreenshotSelectorView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        mPaintBackground = new Paint();
+        mPaintBackground = new Paint(Color.BLACK);
+        mPaintBackground.setAlpha(160);
         mPaintSelection = new Paint(Color.TRANSPARENT);
         mPaintSelection.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
     }
@@ -77,10 +78,5 @@ public class ScreenshotSelectorView extends View {
         if (mSelectionRect != null) {
             canvas.drawRect(mSelectionRect, mPaintSelection);
         }
-    }
-
-    public void setDarkenColor(int color) {
-        mPaintBackground.setColor(color);
-        mPaintBackground.setAlpha(160);
     }
 }
