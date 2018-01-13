@@ -86,4 +86,7 @@
 
     <!-- Aspect ratio of screen -->
     <item name="config_screenAspectRatio" format="float" type="dimen">2.1</item>
+
+    <bool name="config_dozeAlwaysOnDisplayEnabledDefault">false</bool>
+
 </resources>

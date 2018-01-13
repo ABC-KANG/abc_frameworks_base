@@ -124,4 +124,7 @@
   <java-symbol type="color" name="analog_clock_face_color" />
   <java-symbol type="color" name="analog_clock_hand_hour_color" />
   <java-symbol type="color" name="analog_clock_hand_minute_color" />
+
+  <java-symbol type="bool" name="config_dozeAlwaysOnDisplayEnabledDefault" />
+
 </resources>
