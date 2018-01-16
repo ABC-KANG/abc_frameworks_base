@@ -101,7 +101,7 @@
     <string name="screenrecord_show_hint">Вкл. подсказку</string>
     <!-- Screenshot QS tile -->
     <string name="quick_settings_screenrecord_label">Запись экрана</string>
-    <string name="quick_settings_screenrecord_lq_label">Запись экрана LQ</string>
-    <string name="quick_settings_screenrecord_mq_label">Запись экрана MQ</string>
-    <string name="quick_settings_screenrecord_hq_label">Запись экрана HQ</string>
+    <string name="quick_settings_screenrecord_lq_label">Запись экрана 480p</string>
+    <string name="quick_settings_screenrecord_mq_label">Запись экрана 720p</string>
+    <string name="quick_settings_screenrecord_hq_label">Запись экрана 720p+</string>
 </resources>
