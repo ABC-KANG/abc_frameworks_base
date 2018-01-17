@@ -270,6 +270,7 @@ public class NotificationPanelView extends PanelView implements
     public void setStatusBar(StatusBar bar) {
         mStatusBar = bar;
         mKeyguardBottomArea.setStatusBar(mStatusBar);
+        mKeyguardStatusView.setStatusBar(mStatusBar);
     }
 
     @Override
@@ -2717,5 +2718,9 @@ public class NotificationPanelView extends PanelView implements
 
     public void updateDoubleTapToSleep(boolean doubleTapToSleepEnabled) {
         mDoubleTapToSleepEnabled = doubleTapToSleepEnabled;
+    }
+
+    public KeyguardStatusView getKeyguardStatusView() {
+        return mKeyguardStatusView;
     }
 }

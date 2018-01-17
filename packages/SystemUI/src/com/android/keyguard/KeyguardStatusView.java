@@ -24,6 +24,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.media.MediaMetadata;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.UserHandle;
@@ -43,6 +44,8 @@ import android.widget.TextView;
 import com.android.internal.util.ArrayUtils;
 import com.android.internal.widget.LockPatternUtils;
 import com.android.systemui.ChargingView;
+import com.android.systemui.PlayingMediaTextView;
+import com.android.systemui.statusbar.phone.StatusBar;
 import com.android.systemui.statusbar.policy.DateView;
 
 import java.util.Locale;
@@ -61,6 +64,7 @@ public class KeyguardStatusView extends GridLayout {
     private TextView mOwnerInfo;
     private ViewGroup mClockContainer;
     private ChargingView mBatteryDoze;
+     private PlayingMediaTextView mPlayingMedia;
     private View mKeyguardStatusArea;
     private Runnable mPendingMarqueeStart;
     private Handler mHandler;
@@ -143,6 +147,7 @@ public class KeyguardStatusView extends GridLayout {
         if (DEBUG) Log.v(TAG, (enabled ? "Enable" : "Disable") + " transport text marquee");
         if (mAlarmStatusView != null) mAlarmStatusView.setSelected(enabled);
         if (mOwnerInfo != null) mOwnerInfo.setSelected(enabled);
+        mPlayingMedia.setSelected(enabled);
     }
 
     @Override
@@ -158,8 +163,9 @@ public class KeyguardStatusView extends GridLayout {
         }
         mOwnerInfo = findViewById(R.id.owner_info);
         mBatteryDoze = findViewById(R.id.battery_doze);
+        mPlayingMedia = findViewById(R.id.playing_media_info);
         mKeyguardStatusArea = findViewById(R.id.keyguard_status_area);
-        mVisibleInDoze = new View[]{mBatteryDoze, mClockView, mKeyguardStatusArea};
+        mVisibleInDoze = new View[]{mBatteryDoze, mClockView, mKeyguardStatusArea, mPlayingMedia};
         mTextColor = mClockView.getCurrentTextColor();
         mDateTextColor = mDateView.getCurrentTextColor();
         mAlarmTextColor = mAlarmStatusView.getCurrentTextColor();
@@ -341,6 +347,7 @@ public class KeyguardStatusView extends GridLayout {
 
         updateDozeVisibleViews();
         mBatteryDoze.setDark(dark);
+        mPlayingMedia.setDark(dark);
         mClockView.setTextColor(ColorUtils.blendARGB(mTextColor, Color.WHITE, darkAmount));
         mDateView.setTextColor(ColorUtils.blendARGB(mDateTextColor, Color.WHITE, darkAmount));
         int blendedAlarmColor = ColorUtils.blendARGB(mAlarmTextColor, Color.WHITE, darkAmount);
@@ -357,5 +364,13 @@ public class KeyguardStatusView extends GridLayout {
         for (View child : mVisibleInDoze) {
             child.setAlpha(mDarkAmount == 1 && mPulsing ? 0.8f : 1);
         }
+    }
+
+    public void setPlayingMediaText(MediaMetadata mediaMetaData) {
+        mPlayingMedia.setPlayingMediaText(mediaMetaData);
+    }
+
+    public void setStatusBar(StatusBar bar) {
+        mPlayingMedia.setStatusBar(bar);
     }
 }
