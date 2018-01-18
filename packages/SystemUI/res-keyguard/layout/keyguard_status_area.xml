@@ -23,53 +23,29 @@
     xmlns:androidprv="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:gravity="center">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
-
-        <com.android.systemui.statusbar.policy.DateView
-            android:id="@+id/date_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="?attr/wallpaperTextColor"
-            style="@style/widget_label"
-            android:letterSpacing="0.05"
-            android:gravity="center"
-            />
-        <TextView android:id="@+id/alarm_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawablePadding="6dp"
-            android:drawableStart="@drawable/ic_access_alarms_big"
-            android:drawableTint="?attr/wallpaperTextColorSecondary"
-            android:drawableTintMode="src_in"
-            android:textColor="?attr/wallpaperTextColorSecondary"
-            android:letterSpacing="0.05"
-            style="@style/widget_label"
-            android:layout_marginStart="6dp"
-            android:gravity="center"
-            android:visibility="gone"
-            />
-    </LinearLayout>
-
-    <com.android.systemui.PlayingMediaTextView
-        android:id="@+id/playing_media_info"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+    <com.android.systemui.statusbar.policy.DateView
+        android:id="@+id/date_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/playing_media_info_top_margin"
-        android:layout_gravity="center_horizontal"
-        android:layout_centerHorizontal="true"
-        android:textColor="?attr/wallpaperTextColorSecondary"
-        android:textSize="@dimen/widget_label_font_size"
+        android:textColor="?attr/wallpaperTextColor"
+        style="@style/widget_label"
         android:letterSpacing="0.05"
-        android:ellipsize="marquee"
+        android:gravity="center"
+        />
+    <TextView android:id="@+id/alarm_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawablePadding="6dp"
+        android:drawableStart="@drawable/ic_access_alarms_big"
+        android:drawableTint="?attr/wallpaperTextColorSecondary"
+        android:drawableTintMode="src_in"
+        android:textColor="?attr/wallpaperTextColorSecondary"
+        android:letterSpacing="0.05"
+        style="@style/widget_label"
+        android:layout_marginStart="6dp"
+        android:gravity="center"
         android:visibility="gone"
-        android:singleLine="true" />
+        />
 </LinearLayout>
