@@ -20,10 +20,6 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="global_action_restart_advanced">Avanzate</string>
 
-    <string name="alert_on_charged_level">Puoi disconnettere il caricatore ( ">"<xliff:g id="percentage">%s</xliff:g> )</string>
-    <string name="battery_level_good_title">Livello batteria ottimale</string>
-    <string name="notification_channel_charge_alert">Avviso carica batteria ottimale</string>
-
     <!-- Shows when people have clicked on the custom lockscreen shortcut [CHAR LIMIT=60] -->
     <string name="custom_hint">Scorri sull\'icona per avviare</string>
 
@@ -48,4 +44,5 @@
     <string name="screenrecord_notif_completed">Registrazione schermo completata</string>
     <string name="screenrecord_notif_final_ticker">Registrazione schermo completata</string>
     <string name="screenrecord_notif_duration">Totale:</string>
+
 </resources>
