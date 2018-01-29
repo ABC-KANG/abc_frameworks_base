@@ -31,6 +31,8 @@ import com.android.systemui.R;
 
 public class HighBrightnessTile extends QSTileImpl<BooleanState> {
 
+    private final Icon mIcon = ResourceIcon.get(R.drawable.ic_qs_brightness_high_on);
+
     public HighBrightnessTile(QSHost host) {
         super(host);
     }
@@ -89,11 +91,12 @@ public class HighBrightnessTile extends QSTileImpl<BooleanState> {
         boolean highBrightness = Settings.Secure.getIntForUser(mContext.getContentResolver(),
                 Settings.Secure.HIGH_BRIGHTNESS_MODE, 0,
                 UserHandle.USER_CURRENT) != 0;
-
+        if (state.slash == null) {
+            state.slash = new SlashState();
+        }
+        state.icon = mIcon;
         state.label = mContext.getString(R.string.quick_settings_high_brightness);
-        state.icon = highBrightness
-                ? ResourceIcon.get(R.drawable.ic_qs_brightness_high_on)
-                : ResourceIcon.get(R.drawable.ic_qs_brightness_high_off);
+        state.slash.isSlashed = !highBrightness;
         state.state = highBrightness ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE;
     }
 

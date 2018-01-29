@@ -34,6 +34,8 @@ import com.android.systemui.R;
 /** Quick settings tile: Ambient and LiftToWake mode **/
 public class AmbientLiftToWakeTile extends QSTileImpl<BooleanState> {
 
+    private final Icon mIcon = ResourceIcon.get(R.drawable.ic_qs_ambient_on);
+
     private AmbientDisplayConfiguration mAmbientConfig;
     private boolean isAmbientAvailable;
     private boolean isPickupAvailable;
@@ -135,20 +137,24 @@ public class AmbientLiftToWakeTile extends QSTileImpl<BooleanState> {
 
     @Override
     protected void handleUpdateState(BooleanState state, Object arg) {
+        if (state.slash == null) {
+            state.slash = new SlashState();
+        }
+        state.icon = mIcon;
         if (isSomethingEnabled()) {
             getUserDozeValue();
             getUserDozePickUpValue();
             state.label = mContext.getString(R.string.quick_settings_doze_notifications_label);
-            state.icon = ResourceIcon.get(R.drawable.ic_qs_ambient_on);
             state.contentDescription =  mContext.getString(
                     R.string.quick_settings_doze_notifications_label);
+            state.slash.isSlashed = false;
             state.state = Tile.STATE_ACTIVE;
         } else {
             state.label = mContext.getString(R.string.quick_settings_doze_notifications_label);
-            state.icon = ResourceIcon.get(R.drawable.ic_qs_ambient_off);
             state.contentDescription =  mContext.getString(
                     R.string.quick_settings_doze_notifications_label);
-             state.state = Tile.STATE_INACTIVE;
+            state.slash.isSlashed = true;
+            state.state = Tile.STATE_INACTIVE;
         }
     }
 
