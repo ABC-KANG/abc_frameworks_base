@@ -116,4 +116,7 @@
     <string name="quick_settings_network_adb_enabled_label">Adb over Net</string>
     <string name="quick_settings_network_adb_disabled_label">Adb over Net</string>
 
+    <!-- Caffeine tile -->
+    <string name="caffeine_info_title">What is this?</string>
+    <string name="caffeine_info_message">Caffeine tile is a simple tile that you could switch on to keep your screen on.\n\nPlease note that the tile\'s state will reset itself after turning the screen off.</string>
 </resources>
