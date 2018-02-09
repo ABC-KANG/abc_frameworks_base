@@ -63,10 +63,6 @@
     <string name="accessibility_quick_settings_location_gps_only">Location reporting: sensors only mode.</string>
     <string name="accessibility_quick_settings_location_high_accuracy">Location reporting: high accuracy mode.</string>
 
-    <!-- PiP Tile -->
-    <string name="quick_settings_pip_label">PiP</string>
-    <string name="quick_settings_pip_tile_app_na">App does not support PiP</string>
-
      <!-- Sound QS Tile -->
      <string name="quick_settings_sound_label">Sound</string>
      <string name="quick_settings_sound_ring">Ring</string>
@@ -121,4 +117,5 @@
     <string name="caffeine_info_message">Caffeine tile is a simple tile that you could switch on to keep your screen on.\n\nPlease note that the tile\'s state will reset itself after turning the screen off.</string>
 
     <string name="quick_settings_sound_search">Sound search</string>
+
 </resources>
