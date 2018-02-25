@@ -65,4 +65,8 @@
 
   <!-- Hardware key binding -->
   <java-symbol type="integer" name="config_deviceHardwareKeys" />
+
+  <!-- Notification info -->
+  <java-symbol type="color" name="notification_info_button_text" />
+
 </resources>
