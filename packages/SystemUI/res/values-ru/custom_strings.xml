@@ -16,6 +16,12 @@
  -->
 
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- HW Keys Tile -->
+    <string name="accessibility_quick_settings_hwkeys_on">Кнопки вкл.</string>
+    <string name="accessibility_quick_settings_hwkeys_off">Кнопки выкл.</string>
+    <string name="quick_settings_hwkeys_label">Аппарат. кнопки</string>
+
+    <!-- Restart -->
     <string name="global_action_restart_advanced">Дополнительно</string>
     <string name="global_action_restart_recovery">Восстановление</string>
     <string name="global_action_restart_bootloader">Загрузчик</string>
@@ -109,4 +115,6 @@
     <string name="caffeine_info_title">Что это такое?</string>
     <string name="caffeine_info_message">Кофеин - это плитка быстрых настроек, которая позволяет держать ваш экран включенным.\n\nПожалуйста, учтите, что состояние плитки сбрасывается при отключении экрана.</string>
 
+    <!-- Sound search -->
+    <string name="quick_settings_sound_search">Поиск музыки</string>
 </resources>
