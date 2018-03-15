@@ -4375,6 +4375,12 @@ public final class Settings {
          */
         public static final String INCALL_NOTIFICATIONS_VIBRATE = "incall_notifications_vibrate";
 
+        /**
+         * Stores the app to be launched if the user taps on the screenshot notification edit button
+         * @hide
+         */
+        public static final String SCREENSHOT_EDIT_USER_APP = "screenshot_edit_user_app";
+
         /** End of ABC system settings**/
 
         /**
