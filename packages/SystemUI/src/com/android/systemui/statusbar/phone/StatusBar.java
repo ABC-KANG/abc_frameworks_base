@@ -5146,6 +5146,8 @@ public class StatusBar extends SystemUI implements DemoMode,
     protected void updateTheme() {
         final boolean inflated = mStackScroller != null;
 
+        haltTicker();
+
         boolean useDarkTheme = false;
         if (mCurrentTheme == 0) {
             // The system wallpaper defines if QS should be light or dark.
