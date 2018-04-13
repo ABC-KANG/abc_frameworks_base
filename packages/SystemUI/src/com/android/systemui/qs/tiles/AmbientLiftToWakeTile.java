@@ -137,6 +137,9 @@ public class AmbientLiftToWakeTile extends QSTileImpl<BooleanState> {
 
     @Override
     protected void handleUpdateState(BooleanState state, Object arg) {
+        if (mAmbientConfig == null) {
+            return;
+        }
         if (state.slash == null) {
             state.slash = new SlashState();
         }
@@ -177,6 +180,9 @@ public class AmbientLiftToWakeTile extends QSTileImpl<BooleanState> {
 
     @Override
     public void handleSetListening(boolean listening) {
+        if (mAmbientConfig == null) {
+            return;
+        }
         if (listening) {
             if (isAmbientAvailable) {
             mContext.getContentResolver().registerContentObserver(
