@@ -4369,6 +4369,12 @@ public final class Settings {
          */
         public static final String SCREENSHOT_EDIT_USER_APP = "screenshot_edit_user_app";
 
+        /**
+         * Apps to hide in the ChooserActivity
+         * @hide
+         */
+        public static final String CHOOSER_ACTIVITY_BLACKLIST = "chooser_activity_blacklist";
+
         /** End of ABC system settings**/
 
         /**
