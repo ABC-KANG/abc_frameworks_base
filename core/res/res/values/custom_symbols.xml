@@ -93,4 +93,8 @@
   <!-- Toast text and bg colors -->
   <java-symbol type="color" name="toast_bg_color" />
   <java-symbol type="color" name="toast_text_color" />
+
+  <!-- Device keyhandlers -->
+  <java-symbol type="array" name="config_deviceKeyHandlerLibs" />
+  <java-symbol type="array" name="config_deviceKeyHandlerClasses" />
 </resources>
