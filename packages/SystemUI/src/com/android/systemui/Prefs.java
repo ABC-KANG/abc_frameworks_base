@@ -51,6 +51,8 @@ public final class Prefs {
         Key.SEEN_MULTI_USER,
         Key.QS_AMBIENT_DOZE,
         Key.QS_AMBIENT_PICKUP,
+        Key.QS_AMBIENT_HANDWAVE,
+        Key.QS_AMBIENT_POCKETMODE,
     })
     public @interface Key {
         @Deprecated
@@ -81,6 +83,8 @@ public final class Prefs {
         String SEEN_MULTI_USER = "HasSeenMultiUser";
         String QS_AMBIENT_DOZE = "QsAmbientDoze";
         String QS_AMBIENT_PICKUP = "QsAmbientPickup";
+        String QS_AMBIENT_HANDWAVE = "QsAmbientHandwave";
+        String QS_AMBIENT_POCKETMODE = "QsAmbientPocketmode";
     }
 
     public static boolean getBoolean(Context context, @Key String key, boolean defaultValue) {

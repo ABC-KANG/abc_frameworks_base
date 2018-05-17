@@ -25,6 +25,7 @@ import android.service.quicksettings.Tile;
 
 import com.android.internal.hardware.AmbientDisplayConfiguration;
 import com.android.internal.logging.nano.MetricsProto.MetricsEvent;
+import com.android.internal.util.abc.AbcUtils;
 import com.android.systemui.Prefs;
 import com.android.systemui.qs.QSHost;
 import com.android.systemui.plugins.qs.QSTile.BooleanState;
@@ -36,31 +37,42 @@ public class AmbientLiftToWakeTile extends QSTileImpl<BooleanState> {
 
     private final Icon mIcon = ResourceIcon.get(R.drawable.ic_qs_ambient_on);
 
+    private final String DOZE_ENABLED = Settings.Secure.DOZE_ENABLED;
+    private final String DOZE_PULSE_ON_PICK_UP = Settings.Secure.DOZE_PULSE_ON_PICK_UP;
+    private final String CUSTOM_AMBIENT_HANDWAVE_GESTURE = Settings.System.CUSTOM_AMBIENT_HANDWAVE_GESTURE;
+    private final String CUSTOM_AMBIENT_POCKETMODE_GESTURE = Settings.System.CUSTOM_AMBIENT_POCKETMODE_GESTURE;
+
     private AmbientDisplayConfiguration mAmbientConfig;
     private boolean isAmbientAvailable;
     private boolean isPickupAvailable;
+    private boolean areCustomAmbientGesturesAvailable;
     private boolean isSomethingEnabled() {
-        boolean isAmbient = false;
-        boolean isDozePickUp = false;
+        boolean enabled = false;
         if (isAmbientAvailable) {
-            isAmbient = Settings.Secure.getIntForUser(mContext.getContentResolver(),
-                    Settings.Secure.DOZE_ENABLED, 1, UserHandle.USER_CURRENT) == 1;
+            enabled = Settings.Secure.getIntForUser(mContext.getContentResolver(),
+                    DOZE_ENABLED, 1, UserHandle.USER_CURRENT) == 1;
         }
-        if (isPickupAvailable) {
-            isDozePickUp = Settings.Secure.getIntForUser(mContext.getContentResolver(),
-                    Settings.Secure.DOZE_PULSE_ON_PICK_UP, 1, UserHandle.USER_CURRENT) == 1;
+        if (isPickupAvailable && !enabled) {
+            enabled = Settings.Secure.getIntForUser(mContext.getContentResolver(),
+                    DOZE_PULSE_ON_PICK_UP, 1, UserHandle.USER_CURRENT) == 1;
         }
-        if (isAmbient || isDozePickUp) {
-            return true;
+        if (areCustomAmbientGesturesAvailable && !enabled) {
+            enabled = Settings.System.getIntForUser(mContext.getContentResolver(),
+                    CUSTOM_AMBIENT_HANDWAVE_GESTURE, 0, UserHandle.USER_CURRENT) == 1 ||
+                    Settings.System.getIntForUser(mContext.getContentResolver(),
+                    CUSTOM_AMBIENT_POCKETMODE_GESTURE, 0, UserHandle.USER_CURRENT) == 1;
         }
-        return false;
+
+        return enabled ? true : false;
     }
 
     public AmbientLiftToWakeTile(QSHost host) {
         super(host);
         mAmbientConfig = new AmbientDisplayConfiguration(mContext);
+        // this will be true also for custom ambient components
         isAmbientAvailable =  mAmbientConfig.pulseOnNotificationAvailable() ? true : false;
         isPickupAvailable = mAmbientConfig.pulseOnPickupAvailable() ? true : false;
+        areCustomAmbientGesturesAvailable = AbcUtils.hasAltAmbientDisplay(mContext);
     }
 
     @Override
@@ -71,8 +83,7 @@ public class AmbientLiftToWakeTile extends QSTileImpl<BooleanState> {
     @Override
     protected void handleClick() {
         if (isSomethingEnabled()) {
-            getUserDozeValue();
-            getUserDozePickUpValue();
+            getUserDozeValues();
             setDisabled();
         } else {
             setUserValues();
@@ -88,42 +99,66 @@ public class AmbientLiftToWakeTile extends QSTileImpl<BooleanState> {
     private void setDisabled() {
         if (isAmbientAvailable) {
             Settings.Secure.putIntForUser(mContext.getContentResolver(),
-                    Settings.Secure.DOZE_ENABLED, 0, UserHandle.USER_CURRENT);
+                    DOZE_ENABLED, 0, UserHandle.USER_CURRENT);
         }
         if (isPickupAvailable) {
             Settings.Secure.putIntForUser(mContext.getContentResolver(),
-                    Settings.Secure.DOZE_PULSE_ON_PICK_UP, 0, UserHandle.USER_CURRENT);
+                    DOZE_PULSE_ON_PICK_UP, 0, UserHandle.USER_CURRENT);
+        }
+        if (areCustomAmbientGesturesAvailable) {
+            Settings.System.putIntForUser(mContext.getContentResolver(),
+                    CUSTOM_AMBIENT_HANDWAVE_GESTURE, 0, UserHandle.USER_CURRENT);
+            Settings.System.putIntForUser(mContext.getContentResolver(),
+                    CUSTOM_AMBIENT_POCKETMODE_GESTURE, 0, UserHandle.USER_CURRENT);
         }
     }
 
     private void setUserValues() {
         if (isAmbientAvailable) {
             Settings.Secure.putIntForUser(mContext.getContentResolver(),
-                    Settings.Secure.DOZE_ENABLED, Prefs.getInt(mContext, Prefs.Key.QS_AMBIENT_DOZE, 1),
+                    DOZE_ENABLED, Prefs.getInt(mContext, Prefs.Key.QS_AMBIENT_DOZE, 1),
                     UserHandle.USER_CURRENT);
         }
         if (isPickupAvailable) {
             Settings.Secure.putIntForUser(mContext.getContentResolver(),
-                    Settings.Secure.DOZE_PULSE_ON_PICK_UP, Prefs.getInt(mContext, Prefs.Key.QS_AMBIENT_PICKUP, 1),
+                    DOZE_PULSE_ON_PICK_UP, Prefs.getInt(mContext, Prefs.Key.QS_AMBIENT_PICKUP, 1),
+                    UserHandle.USER_CURRENT);
+        }
+        if (areCustomAmbientGesturesAvailable) {
+            Settings.System.putIntForUser(mContext.getContentResolver(),
+                    CUSTOM_AMBIENT_HANDWAVE_GESTURE, Prefs.getInt(mContext, Prefs.Key.QS_AMBIENT_HANDWAVE, 1),
+                    UserHandle.USER_CURRENT);
+            Settings.System.putIntForUser(mContext.getContentResolver(),
+                    CUSTOM_AMBIENT_POCKETMODE_GESTURE, Prefs.getInt(mContext, Prefs.Key.QS_AMBIENT_POCKETMODE, 1),
                     UserHandle.USER_CURRENT);
         }
     }
 
-    private void getUserDozeValue() {
+    private void getUserDozeValues() {
+        int value = 0;
         if (isAmbientAvailable) {
-            int getUserDozeValue = Settings.Secure.getIntForUser(mContext.getContentResolver(),
-                    Settings.Secure.DOZE_ENABLED, 1, UserHandle.USER_CURRENT);
-            Prefs.putInt(mContext, Prefs.Key.QS_AMBIENT_DOZE, getUserDozeValue);
+            value = Settings.Secure.getIntForUser(mContext.getContentResolver(),
+                    DOZE_ENABLED, 1, UserHandle.USER_CURRENT);
+            Prefs.putInt(mContext, Prefs.Key.QS_AMBIENT_DOZE, value);
+        }
+
+        if (isPickupAvailable) {
+            value =  Settings.Secure.getIntForUser(mContext.getContentResolver(),
+                    DOZE_PULSE_ON_PICK_UP, 1, UserHandle.USER_CURRENT);
+            Prefs.putInt(mContext, Prefs.Key.QS_AMBIENT_PICKUP, value);
+        }
+
+        if (areCustomAmbientGesturesAvailable) {
+            value = Settings.System.getIntForUser(mContext.getContentResolver(),
+                    CUSTOM_AMBIENT_HANDWAVE_GESTURE, 0, UserHandle.USER_CURRENT);
+            Prefs.putInt(mContext, Prefs.Key.QS_AMBIENT_HANDWAVE, value);
+
+            value = Settings.System.getIntForUser(mContext.getContentResolver(),
+                    CUSTOM_AMBIENT_POCKETMODE_GESTURE, 0, UserHandle.USER_CURRENT);
+            Prefs.putInt(mContext, Prefs.Key.QS_AMBIENT_POCKETMODE, value);
         }
     }
 
-    private void getUserDozePickUpValue() {
-        if (isPickupAvailable) {
-            int getUserDozePickUpValue =  Settings.Secure.getIntForUser(mContext.getContentResolver(),
-                    Settings.Secure.DOZE_PULSE_ON_PICK_UP, 1, UserHandle.USER_CURRENT);
-            Prefs.putInt(mContext, Prefs.Key.QS_AMBIENT_PICKUP, getUserDozePickUpValue);
-        }
-    }
 
     @Override
     public Intent getLongClickIntent() {
@@ -145,8 +180,7 @@ public class AmbientLiftToWakeTile extends QSTileImpl<BooleanState> {
         }
         state.icon = mIcon;
         if (isSomethingEnabled()) {
-            getUserDozeValue();
-            getUserDozePickUpValue();
+            getUserDozeValues();
             state.label = mContext.getString(R.string.quick_settings_doze_notifications_label);
             state.contentDescription =  mContext.getString(
                     R.string.quick_settings_doze_notifications_label);
@@ -185,14 +219,22 @@ public class AmbientLiftToWakeTile extends QSTileImpl<BooleanState> {
         }
         if (listening) {
             if (isAmbientAvailable) {
-            mContext.getContentResolver().registerContentObserver(
-                    Settings.Secure.getUriFor(Settings.Secure.DOZE_ENABLED),
-                    false, mObserver, UserHandle.USER_ALL);
+                mContext.getContentResolver().registerContentObserver(
+                        Settings.Secure.getUriFor(DOZE_ENABLED),
+                        false, mObserver, UserHandle.USER_ALL);
             }
             if (isPickupAvailable) {
-            mContext.getContentResolver().registerContentObserver(
-                    Settings.Secure.getUriFor(Settings.Secure.DOZE_PULSE_ON_PICK_UP),
-                    false, mObserver, UserHandle.USER_ALL);
+                mContext.getContentResolver().registerContentObserver(
+                        Settings.Secure.getUriFor(DOZE_PULSE_ON_PICK_UP),
+                        false, mObserver, UserHandle.USER_ALL);
+            }
+            if (areCustomAmbientGesturesAvailable) {
+                mContext.getContentResolver().registerContentObserver(
+                        Settings.System.getUriFor(CUSTOM_AMBIENT_HANDWAVE_GESTURE),
+                        false, mObserver, UserHandle.USER_ALL);
+                mContext.getContentResolver().registerContentObserver(
+                        Settings.System.getUriFor(CUSTOM_AMBIENT_POCKETMODE_GESTURE),
+                        false, mObserver, UserHandle.USER_ALL);
             }
         } else {
             mContext.getContentResolver().unregisterContentObserver(mObserver);
