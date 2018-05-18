@@ -3999,6 +3999,18 @@ public final class Settings {
         public static final String DOUBLE_TAP_SLEEP_LOCKSCREEN =
                 "double_tap_sleep_lockscreen";
 
+        /**
+         * Select which lockscreen date style to display
+         * @hide
+         */
+        public static final String LOCKSCREEN_DATE_SELECTION = "lockscreen_date_selection";
+
+        /**
+         * Select which lockscreen clock style to display
+         * @hide
+         */
+        public static final String LOCKSCREEN_CLOCK_SELECTION = "lockscreen_clock_selection";
+
         /** Whether to allow one finger quick settings expansion on the right side of the statusbar.
          *
          * @hide
