@@ -628,7 +628,8 @@ class BluetoothManagerService extends IBluetoothManager.Stub {
         }
         try {
             return (Settings.Global.getInt(mContentResolver,
-                    Settings.Global.BLE_SCAN_ALWAYS_AVAILABLE)) != 0;
+                    Settings.Global.BLE_SCAN_ALWAYS_AVAILABLE)) != 0 && !mContext.getResources()
+                    .getBoolean(com.android.internal.R.bool.forceDisableAlwaysOnBle);
         } catch (SettingNotFoundException e) {
         }
         return false;
