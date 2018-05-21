@@ -81,6 +81,7 @@ public class KeyguardStatusView extends GridLayout {
 
     private boolean mForcedMediaDoze;
 
+    private boolean mAvailableAlarm;
     private int mClockSelection;
     private int mDateSelection;
 
@@ -174,6 +175,8 @@ public class KeyguardStatusView extends GridLayout {
         mDateTextColor = mDateView.getCurrentTextColor();
         mAlarmTextColor = mAlarmStatusView.getCurrentTextColor();
 
+        updateSettings();
+
         boolean shouldMarquee = KeyguardUpdateMonitor.getInstance(mContext).isDeviceInteractive();
         setEnableMarquee(shouldMarquee);
         refresh();
@@ -229,7 +232,6 @@ public class KeyguardStatusView extends GridLayout {
 
         refreshTime();
         refreshAlarmStatus(nextAlarm);
-        updateSettings(false);
     }
 
     void refreshAlarmStatus(AlarmManager.AlarmClockInfo nextAlarm) {
@@ -238,15 +240,19 @@ public class KeyguardStatusView extends GridLayout {
             mAlarmStatusView.setText(alarm);
             mAlarmStatusView.setContentDescription(
                     getResources().getString(R.string.keyguard_accessibility_next_alarm, alarm));
-            mAlarmStatusView.setVisibility(View.VISIBLE);
+            mAvailableAlarm = true;
         } else {
-            mAlarmStatusView.setVisibility(View.GONE);
+            mAvailableAlarm = false;
         }
     }
 
     public int getClockBottom() {
         return mKeyguardStatusArea.getBottom();
     }
+
+    /*public int getClockSelection() {
+        return mClockSelection;
+    }*/
 
     public float getClockTextSize() {
         return mClockView.getTextSize();
@@ -278,7 +284,6 @@ public class KeyguardStatusView extends GridLayout {
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         KeyguardUpdateMonitor.getInstance(mContext).registerCallback(mInfoCallback);
-        updateSettings(false);
     }
 
     @Override
@@ -309,7 +314,37 @@ public class KeyguardStatusView extends GridLayout {
         return false;
     }
 
-    private void updateSettings(boolean forceHide) {
+    private void updateVisibilities() {
+        switch (mClockSelection) {
+            case 0: // default digital
+            default:
+                mClockView.setVisibility(View.VISIBLE);
+                mAnalogClockView.setVisibility(View.GONE);
+                break;
+            case 1: // digital (bold)
+                mClockView.setVisibility(View.VISIBLE);
+                mAnalogClockView.setVisibility(View.GONE);
+                break;
+            case 2: // analog
+                mAnalogClockView.setVisibility(View.VISIBLE);
+                mClockView.setVisibility(View.GONE);
+                break;
+            case 3: // sammy
+                mClockView.setVisibility(View.VISIBLE);
+                mAnalogClockView.setVisibility(View.GONE);
+                break;
+            case 4: // sammy (bold)
+                mClockView.setVisibility(View.VISIBLE);
+                mAnalogClockView.setVisibility(View.GONE);
+                break;
+        }
+
+        mDateView.setVisibility(View.VISIBLE);
+
+        mAlarmStatusView.setVisibility(mAvailableAlarm ? View.VISIBLE : View.GONE);
+    }
+
+    private void updateSettings() {
         final ContentResolver resolver = getContext().getContentResolver();
 
         mClockSelection = Settings.System.getIntForUser(resolver,
@@ -317,67 +352,60 @@ public class KeyguardStatusView extends GridLayout {
         mDateSelection = Settings.System.getIntForUser(resolver,
                 Settings.System.LOCKSCREEN_DATE_SELECTION, 0, UserHandle.USER_CURRENT);
 
-        mClockView = (TextClock) findViewById(R.id.clock_view);
-        mAnalogClockView = (CustomAnalogClock) findViewById(R.id.analog_clock_view);
-        mDateView = (DateView) findViewById(R.id.date_view);
-
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mKeyguardStatusArea.getLayoutParams();
         switch (mClockSelection) {
             case 0: // default digital
             default:
-                mClockView.setVisibility(View.VISIBLE);
-                mAnalogClockView.setVisibility(View.GONE);
                 params.addRule(RelativeLayout.BELOW, R.id.clock_view);
                 mClockView.setSingleLine(true);
+                mAnalogClockView.unregisterReceiver();
                 break;
             case 1: // digital (bold)
-                mClockView.setVisibility(View.VISIBLE);
-                mAnalogClockView.setVisibility(View.GONE);
                 params.addRule(RelativeLayout.BELOW, R.id.clock_view);
                 mClockView.setSingleLine(true);
                 break;
             case 2: // analog
-                mAnalogClockView.setVisibility(View.VISIBLE);
-                mClockView.setVisibility(View.GONE);
                 params.addRule(RelativeLayout.BELOW, R.id.analog_clock_view);
+                mAnalogClockView.registerReceiver();
                 break;
             case 3: // sammy
-                mClockView.setVisibility(View.VISIBLE);
-                mAnalogClockView.setVisibility(View.GONE);
                 params.addRule(RelativeLayout.BELOW, R.id.clock_view);
                 mClockView.setSingleLine(false);
+                mAnalogClockView.unregisterReceiver();
                 break;
             case 4: // sammy (bold)
-                mClockView.setVisibility( View.VISIBLE);
-                mAnalogClockView.setVisibility(View.GONE);
                 params.addRule(RelativeLayout.BELOW, R.id.clock_view);
                 mClockView.setSingleLine(false);
+                mAnalogClockView.unregisterReceiver();
                 break;
         }
 
         switch (mDateSelection) {
             case 0: // default
             default:
-                mDateView.setVisibility(View.VISIBLE);
                 mDateView.setBackgroundResource(0);
                 mDateView.setTypeface(Typeface.DEFAULT);
                 mDateView.setPadding(0,0,0,0);
                 break;
             case 1: // semi-transparent box
-                mDateView.setVisibility( View.VISIBLE);
                 mDateView.setBackground(getResources().getDrawable(R.drawable.date_box_str_border));
                 mDateView.setTypeface(Typeface.DEFAULT_BOLD);
                 mDateView.setPadding(40,20,40,20);
                 break;
             case 2: // semi-transparent box (round)
-                mDateView.setVisibility(View.VISIBLE);
                 mDateView.setBackground(getResources().getDrawable(R.drawable.date_str_border));
                 mDateView.setTypeface(Typeface.DEFAULT_BOLD);
                 mDateView.setPadding(40,20,40,20);
                 break;
         }
 
+        updateVisibilities();
         updateDozeVisibleViews();
+    }
+
+    public void updateAll() {
+        updateSettings();
+        refresh();
     }
 
     // DateFormat.getBestDateTimePattern is extremely expensive, and refresh is called often.
@@ -391,6 +419,7 @@ public class KeyguardStatusView extends GridLayout {
         static void update(Context context, boolean hasAlarm) {
             final Locale locale = Locale.getDefault();
             final Resources res = context.getResources();
+
             dateViewSkel = res.getString(hasAlarm
                     ? R.string.abbrev_wday_month_day_no_year_alarm
                     : R.string.abbrev_wday_month_day_no_year);
@@ -440,6 +469,7 @@ public class KeyguardStatusView extends GridLayout {
         mAlarmStatusView.setCompoundDrawableTintList(ColorStateList.valueOf(blendedAlarmColor));
 
         mAnalogClockView.setDark(dark);
+        updateVisibilities();
     }
 
     public void setPulsing(boolean pulsing) {
@@ -460,6 +490,5 @@ public class KeyguardStatusView extends GridLayout {
                 child.setAlpha(mDarkAmount == 1 ? 0 : 1);
             }
         }
-        refreshTime();
     }
 }
