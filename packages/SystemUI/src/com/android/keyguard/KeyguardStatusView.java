@@ -443,6 +443,7 @@ public class KeyguardStatusView extends GridLayout {
 
     public void setDark(float darkAmount) {
         if (mDarkAmount == darkAmount) {
+            updateVisibilities();
             return;
         }
         mDarkAmount = darkAmount;
@@ -469,7 +470,7 @@ public class KeyguardStatusView extends GridLayout {
         mAlarmStatusView.setCompoundDrawableTintList(ColorStateList.valueOf(blendedAlarmColor));
 
         mAnalogClockView.setDark(dark);
-        updateVisibilities();
+        updateVisibilities(); // with updated mDarkAmount value
     }
 
     public void setPulsing(boolean pulsing) {
