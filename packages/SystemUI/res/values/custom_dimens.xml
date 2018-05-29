@@ -51,4 +51,7 @@
     <dimen name="floating_action_button_margin_bottom">54dp</dimen>
 
     <dimen name="qs_corner_content_padding">8dp</dimen>
+
+    <!-- Big clock dozing
+    <dimen name="dozing_big_clock_padding" format="float">0.38</dimen> -->
 </resources>
