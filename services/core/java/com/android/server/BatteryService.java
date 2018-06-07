@@ -152,6 +152,7 @@ public final class BatteryService extends SystemService {
     private boolean mUpdatesStopped;
 
     private Led mLed;
+    private boolean mLightEnabled;
 
     //Battery light color customization
     private boolean mAllowBatteryLightOnDnd;
@@ -257,6 +258,9 @@ public final class BatteryService extends SystemService {
             ContentResolver resolver = mContext.getContentResolver();
 
             resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.BATTERY_LIGHT_ENABLED),
+                    false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.BATTERY_LIGHT_ALLOW_ON_DND),
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(
@@ -291,6 +295,8 @@ public final class BatteryService extends SystemService {
             ContentResolver resolver = mContext.getContentResolver();
             Resources res = mContext.getResources();
 
+            mLightEnabled = Settings.System.getInt(resolver,
+                    Settings.System.BATTERY_LIGHT_ENABLED, 1) == 1;
             mAllowBatteryLightOnDnd = Settings.System.getInt(resolver,
                     Settings.System.BATTERY_LIGHT_ALLOW_ON_DND, 0) == 1;
             mIsDndActive = Settings.Global.getInt(resolver,
@@ -988,36 +994,58 @@ public final class BatteryService extends SystemService {
             }
             final int level = mBatteryProps.batteryLevel;
             final int status = mBatteryProps.batteryStatus;
-            if (mIsDndActive && !mAllowBatteryLightOnDnd) {
-                mBatteryLight.turnOff();
+            boolean lightEnabled = mLightEnabled;
+            int lightColor = mBatteryLowARGB;
+            boolean pulseColor = false;
+            if (!mLightEnabled) {
+                // No lights if explicitly disabled
+                lightEnabled = false;
+            } else if (mIsDndActive && !mAllowBatteryLightOnDnd) {
+                // No lights when battery light on dnd disabled and dnd is active
+                lightEnabled = false;
             } else if (level < mLowBatteryWarningLevel) {
                 if (status == BatteryManager.BATTERY_STATUS_CHARGING) {
-                    // Battery is charging and low
-                    mBatteryLight.setColor(mBatteryLowARGB);
+                    // Solid red when battery is charging
+                    lightEnabled = true;
+                    lightColor = mBatteryLowARGB;
                 } else if (mLowBatteryBlinking) {
-                    // Flash when battery is low and not charging
-                    mBatteryLight.setFlashing(mBatteryLowARGB, Light.LIGHT_FLASH_TIMED,
-                            mBatteryLedOn, mBatteryLedOff);
+                    // Flash red when battery is low and not charging
+                    pulseColor = true;
+                    lightEnabled = true;
+                    lightColor = mBatteryLowARGB;
                 } else {
                     // "Pulse low battery light" is disabled, no lights.
-                    mBatteryLight.turnOff();
+                    lightEnabled = false;
                 }
             } else if (status == BatteryManager.BATTERY_STATUS_CHARGING
                     || status == BatteryManager.BATTERY_STATUS_FULL) {
                 if (status == BatteryManager.BATTERY_STATUS_FULL || level >= 90) {
-                    if (level == 100) {
+                    if (level == 100){
                         // Battery is really full
-                        mBatteryLight.setColor(mBatteryReallyFullARGB);
+                        lightEnabled = true;
+                        lightColor = mBatteryReallyFullARGB;
                     } else {
                         // Battery is full or charging and nearly full
-                        mBatteryLight.setColor(mBatteryFullARGB);
+                        lightEnabled = true;
+                        lightColor = mBatteryFullARGB;
                     }
                 } else {
                     // Battery is charging and halfway full
-                    mBatteryLight.setColor(mBatteryMediumARGB);
+                    lightEnabled = true;
+                    lightColor = mBatteryMediumARGB;
                 }
             } else {
                 // No lights if not charging and not low
+                lightEnabled = false;
+            }
+            if (lightEnabled) {
+                if (pulseColor) {
+                    mBatteryLight.setFlashing(lightColor, Light.LIGHT_FLASH_TIMED,
+                            mBatteryLedOn, mBatteryLedOff);
+                } else {
+                    mBatteryLight.setColor(lightColor);
+                }
+            } else {
                 mBatteryLight.turnOff();
             }
         }
