@@ -52,6 +52,6 @@
 
     <dimen name="qs_corner_content_padding">8dp</dimen>
 
-    <!-- Big clock dozing
-    <dimen name="dozing_big_clock_padding" format="float">0.38</dimen> -->
+    <!-- Big clock dozing -->
+    <dimen name="dozing_big_clock_padding" format="float">0.33</dimen>
 </resources>
