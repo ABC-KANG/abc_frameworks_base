@@ -87,4 +87,7 @@
     <color name="screen_pinning_toast_dark_text_color">@android:color/white</color>
     <color name="screen_pinning_toast_light_background_color">#E6EEEEEE</color>
     <color name="screen_pinning_toast_light_text_color">@color/primary_text_default_material_light</color>
+
+    <!-- Fastscroller -->
+    <color name="fastscroller_text_color">#FFFFFFFF</color>
 </resources>

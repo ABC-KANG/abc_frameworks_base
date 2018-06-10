@@ -137,4 +137,7 @@
   <java-symbol type="color" name="screen_pinning_toast_dark_text_color" />
   <java-symbol type="color" name="screen_pinning_toast_light_background_color" />
   <java-symbol type="color" name="screen_pinning_toast_light_text_color" />
+
+  <!-- Fastscroller -->
+  <java-symbol type="color" name="fastscroller_text_color" />
 </resources>
