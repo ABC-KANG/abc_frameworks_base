@@ -185,7 +185,7 @@ public class KeyguardClockPositionAlgorithm {
 
     public void setClockSelection(int style) {
         // if analog or sammy styles, allow to set per device padding
-        mIsBigClock = style == 2 || style == 3 || style == 4;
+        mIsBigClock = style > 1;
     }
 
     private float burnInPreventionOffsetY() {
