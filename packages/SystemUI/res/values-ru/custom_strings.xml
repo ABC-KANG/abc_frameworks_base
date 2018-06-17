@@ -82,6 +82,8 @@
     <string name="quick_settings_volume_panel_label">Панель громкости</string>
 
     <string name="recents_app_killed">Приложение закрыто</string>
+    <string name="recents_locked_app_kill_warning">Приложение заблокировано. Оно будет закрыто, но останется в списке недавних приложений.</string>
+    <string name="recents_kill_error_warning">Невозможно принудительно закрыть приложение. Операция прервана.</string>
 
     <string name="status_bar_roaming">Роуминг</string>
 

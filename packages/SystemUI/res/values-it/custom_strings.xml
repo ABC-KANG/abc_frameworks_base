@@ -28,6 +28,8 @@
     <string name="quick_settings_region_screenshot_label">Screenshot parziale</string>
 
     <string name="recents_app_killed">App terminata</string>
+    <string name="recents_locked_app_kill_warning">L\'app è bloccata. Il processo sarà fermato forzatamanete ma non verrà eliminato dai Recenti.</string>
+    <string name="recents_kill_error_warning">Impossibile terminare l\'app</string>
 
     <string name="screenrecord_notif_ticker">Lo schermo sta per essere registrato</string>
     <string name="screenrecord_notif_title">Registrazione in corso</string>
