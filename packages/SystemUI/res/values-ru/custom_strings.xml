@@ -122,4 +122,13 @@
 
     <!-- Sound search -->
     <string name="quick_settings_sound_search">Поиск музыки</string>
+
+    <!-- Immersive mode tile -->
+
+    <string name="quick_settings_immersive_tile">Полноэкр. режим</string>
+    <string name="quick_settings_immersive_tile_off">Полноэкр. режим откл.</string>
+    <string name="quick_settings_immersive_tile_statusbar">Скрыть стр. сост.</string>
+    <string name="quick_settings_immersive_tile_navbar">Скрыть панель нав.</string>
+    <string name="quick_settings_immersive_tile_full">Полноэкр. режим</string>
+
 </resources>
