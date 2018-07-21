@@ -4482,6 +4482,11 @@ public final class Settings {
         };
 
         /**
+         * @hide
+         */
+        public static final String USE_BOTTOM_GESTURE_NAVIGATION = "use_bottom_gesture_navigation";
+
+        /**
          * These are all public system settings
          *
          * @hide
@@ -4586,6 +4591,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(STATUSBAR_CLOCK_DATE_DISPLAY);
             PRIVATE_SETTINGS.add(STATUSBAR_CLOCK_DATE_STYLE);
             PRIVATE_SETTINGS.add(STATUSBAR_CLOCK_DATE_FORMAT);
+            PRIVATE_SETTINGS.add(USE_BOTTOM_GESTURE_NAVIGATION);
         }
 
         /**

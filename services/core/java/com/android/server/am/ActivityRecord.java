@@ -2292,6 +2292,10 @@ final class ActivityRecord extends ConfigurationContainer implements AppWindowCo
                 com.android.internal.R.bool.config_haveHigherAspectRatioScreen);
         final float maxAspectRatio = higherAspectRatio ? mFullScreenAspectRatio : info.maxAspectRatio;
         final ActivityStack stack = getStack();
+
+        if (service.mWindowManager.isGestureButtonEnabled()) {
+            return;
+        }
         if (task == null || stack == null || !task.mFullscreen || maxAspectRatio == 0
                 || isInVrUiMode(getConfiguration())) {
             // We don't set override configuration if that activity task isn't fullscreen. I.e. the
