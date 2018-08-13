@@ -2047,7 +2047,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         }
     }
 
-    protected void handleLongPressOnHome(int deviceId) {
+    private void handleLongPressOnHome(int deviceId) {
         if (mLongPressOnHomeBehavior == LONG_PRESS_HOME_NOTHING) {
             return;
         }

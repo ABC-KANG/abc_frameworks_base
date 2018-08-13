@@ -53,10 +53,8 @@ public class GestureButton implements PointerEventListener {
     private static boolean DEBUG = false;
 
     private static final int GESTURE_KEY_DISTANCE_TIMEOUT = 250;
-    private static final int GESTURE_KEY_LONG_CLICK_TIMEOUT = 500;
     private static final int MSG_SEND_SWITCH_KEY = 5;
     private static final int MSG_SEND_KEY = 6;
-    private static final int MSG_SEND_LONG_PRESS = 7;
     private static float mRecentMoveTolerance = 5.0f;
 
     private long mDownTime;
@@ -79,7 +77,6 @@ public class GestureButton implements PointerEventListener {
     private int mEventDeviceId;
     private boolean mDismissInputMethod;
     private int mSwipeMinLength;
-    private int mLongPressMaxLength;
 
     private OnTouchListener mTouchListener = new OnTouchListener() {
         public boolean onTouch(View v, MotionEvent event) {
@@ -108,11 +105,6 @@ public class GestureButton implements PointerEventListener {
                     mPwm.performHapticFeedbackLw(null, HapticFeedbackConstants.VIRTUAL_KEY, false);
                     triggerGestureVirtualKeypress(mPreparedKeycode);
                     break;
-                case MSG_SEND_LONG_PRESS:
-                    if (DEBUG) Slog.i(TAG, "MSG_SEND_LONG_PRESS");
-                    mKeyEventHandled = true;
-                    mPwm.handleLongPressOnHome(mEventDeviceId);
-                    break;
             }
         }
     }
@@ -127,7 +119,6 @@ public class GestureButton implements PointerEventListener {
         mScreenWidth = Math.min(displayMetrics.widthPixels, displayMetrics.heightPixels);
         mSwipeStartThreshold = 20;
         mSwipeMinLength = context.getResources().getDimensionPixelSize(R.dimen.nav_gesture_swipe_min_length);
-        mLongPressMaxLength = context.getResources().getDimensionPixelSize(R.dimen.nav_gesture_long_press_max_length);
         HandlerThread gestureButtonThread = new HandlerThread("GestureButtonThread", -8);
         gestureButtonThread.start();
         mGestureButtonHandler = new GestureButtonHandler(gestureButtonThread.getLooper());
@@ -226,13 +217,6 @@ public class GestureButton implements PointerEventListener {
                             moveDistanceSinceLast = Math.abs(mLastY - rawY);
                         } else {
                             moveDistanceSinceLast = Math.abs(mLastX - rawX);
-                        }
-                        long deltaSinceDown = event.getEventTime() - mDownTime;
-                        if (mPreparedKeycode == KeyEvent.KEYCODE_HOME && moveDistanceSinceDown < mLongPressMaxLength) {
-                            if (deltaSinceDown > GESTURE_KEY_LONG_CLICK_TIMEOUT) {
-                                if (DEBUG) Slog.i(TAG, "long click: moveDistanceSinceDown = " + moveDistanceSinceDown);
-                                mGestureButtonHandler.sendEmptyMessage(MSG_SEND_LONG_PRESS);
-                            }
                         }
 
                         if (moveDistanceSinceDown > mSwipeMinLength) {
